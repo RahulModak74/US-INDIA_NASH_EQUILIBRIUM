@@ -2,56 +2,48 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from itertools import product
 
 class CurrencyGameTheory:
     def __init__(self):
         """
-        Initialize the US_INDIA (with BRICS) currency competition game
-        
-        Players: US, BRICS(India)
-        US Strategies: Aggressive Tariffs, Cooperative Trade
-        India Strategies: Accelerate De-dollarization, Maintain Status Quo
+        US-BRICS Currency Competition Game
+        Players: US, BRICS (India)
+        Strategies:
+            US: Aggressive Tariffs, Cooperative Trade
+            India: Accelerate De-dollarization, Maintain Status Quo
+        Payoffs based on provided economic estimates.
         """
         
         # Economic parameters (in trillions USD)
-        self.us_debt = 37.0  # US national debt
-        self.us_exports_to_brics = 0.083  # US exports to India
-        self.brics_exports_to_us = 0.125  # India  exports to US
-        self.us_defense_market = 0.150  # USD Value of Global defense market dominated by US that India can disrupt (missiles-F16)
-        self.dollar_privilege_value = 2.5  # Annual value of dollar dominance in trillion
-        self.brics_gdp_share = 0.379  # BRICS share of global GDP by 2028
+        self.us_debt = 37.0
+        self.us_exports_to_brics = 0.083
+        self.brics_exports_to_us = 0.125
+        self.us_defense_market = 0.150
+        self.dollar_privilege_value = 2.5
+        self.brics_gdp_share = 0.379
         
         # Define payoff matrices
         self.setup_payoff_matrices()
     
     def setup_payoff_matrices(self):
-        """Define payoff matrices for the currency competition game"""
-        
-        # US Payoffs (in trillions USD annually)
-        # Rows: US strategies (Aggressive Tariffs, Cooperative Trade)
-        # Columns: India strategies (Accelerate De-dollarization, Maintain Status Quo)
-        
+        """Define payoff matrices as per input data"""
+        # US Payoffs: [Aggressive Tariffs; Cooperative Trade] x [Accel, Maintain]
         self.us_payoffs = np.array([
-            # India : Accelerate De-dollarization, Maintain Status Quo
-            [-3.2, 0.1],    # US: Aggressive Tariffs
-            [-0.8, 1.5]     # US: Cooperative Trade
+            [-3.2, 0.1],   # Aggressive Tariffs
+            [-0.8, 1.5]    # Cooperative Trade
         ])
         
-        # India  Payoffs (in trillions USD annually)
+        # BRICS (India) Payoffs
         self.brics_payoffs = np.array([
-            # India: Accelerate De-dollarization, Maintain Status Quo
-            [2.5, -0.125],   # US: Aggressive Tariffs
-            [0.8, 0.5]       # US: Cooperative Trade
+            [2.5, -0.125],  # Against Aggressive Tariffs
+            [0.8, 0.5]      # Against Cooperative Trade
         ])
         
-        # Strategy labels
         self.us_strategies = ['Aggressive Tariffs', 'Cooperative Trade']
         self.brics_strategies = ['Accelerate De-dollarization', 'Maintain Status Quo']
     
     def calculate_detailed_payoffs(self):
-        """Calculate detailed breakdown of payoffs for each scenario"""
-        
+        """Return detailed economic components of key scenarios"""
         scenarios = {
             'US_Aggressive_BRICS_Accelerate': {
                 'US_losses': {
@@ -75,7 +67,6 @@ class CurrencyGameTheory:
                     'Transition_costs': -0.25
                 }
             },
-            
             'US_Cooperative_BRICS_Maintain': {
                 'US_gains': {
                     'Maintain_dollar_dominance': 2.5,
@@ -97,259 +88,210 @@ class CurrencyGameTheory:
                 }
             }
         }
-        
         return scenarios
-    
+
     def find_nash_equilibria(self):
-        """Find Nash equilibria in the game"""
-        
-        nash_equilibria = []
-        
-        for i in range(len(self.us_strategies)):
-            for j in range(len(self.brics_strategies)):
-                is_nash = True
+        """Find all pure-strategy Nash equilibria"""
+        nash_eq = []
+        for i in range(2):
+            for j in range(2):
+                us_payoff = self.us_payoffs[i, j]
+                brics_payoff = self.brics_payoffs[i, j]
                 
-                # Check if US has incentive to deviate
-                current_us_payoff = self.us_payoffs[i, j]
-                for alt_i in range(len(self.us_strategies)):
-                    if alt_i != i and self.us_payoffs[alt_i, j] > current_us_payoff:
-                        is_nash = False
-                        break
+                # Check if US can improve by deviating
+                us_best = all(self.us_payoffs[alt_i, j] <= us_payoff for alt_i in range(2))
                 
-                # Check if BRICS has incentive to deviate
-                if is_nash:
-                    current_brics_payoff = self.brics_payoffs[i, j]
-                    for alt_j in range(len(self.brics_strategies)):
-                        if alt_j != j and self.brics_payoffs[i, alt_j] > current_brics_payoff:
-                            is_nash = False
-                            break
+                # Check if BRICS can improve by deviating
+                brics_best = all(self.brics_payoffs[i, alt_j] <= brics_payoff for alt_j in range(2))
                 
-                if is_nash:
-                    nash_equilibria.append((i, j, self.us_payoffs[i, j], self.brics_payoffs[i, j]))
-        
-        return nash_equilibria
-    
+                if us_best and brics_best:
+                    nash_eq.append((i, j, us_payoff, brics_payoff))
+        return nash_eq
+
     def analyze_dominant_strategies(self):
-        """Analyze if any player has dominant strategies"""
-        
-        analysis = {}
-        
-        # Check US dominant strategies
-        us_dominant = None
-        for i in range(len(self.us_strategies)):
-            is_dominant = True
-            for alt_i in range(len(self.us_strategies)):
-                if alt_i != i:
-                    # Check if strategy i dominates alt_i
-                    dominates = all(self.us_payoffs[i, j] >= self.us_payoffs[alt_i, j] 
-                                  for j in range(len(self.brics_strategies)))
-                    strictly_dominates = any(self.us_payoffs[i, j] > self.us_payoffs[alt_i, j] 
-                                           for j in range(len(self.brics_strategies)))
-                    
-                    if not (dominates and strictly_dominates):
-                        is_dominant = False
-                        break
-            
-            if is_dominant:
-                us_dominant = self.us_strategies[i]
+        """Check for strictly dominant strategies"""
+        us_dom = None
+        for i in range(2):
+            dominates = True
+            for j in range(2):
+                if not all(self.us_payoffs[i, j] >= self.us_payoffs[k, j] for k in range(2) if k != i):
+                    dominates = False
+                    break
+                if not any(self.us_payoffs[i, j] > self.us_payoffs[k, j] for k in range(2) if k != i):
+                    dominates = False
+                    break
+            if dominates:
+                us_dom = self.us_strategies[i]
                 break
-        
-        # Check BRICS dominant strategies
-        brics_dominant = None
-        for j in range(len(self.brics_strategies)):
-            is_dominant = True
-            for alt_j in range(len(self.brics_strategies)):
-                if alt_j != j:
-                    # Check if strategy j dominates alt_j
-                    dominates = all(self.brics_payoffs[i, j] >= self.brics_payoffs[i, alt_j] 
-                                  for i in range(len(self.us_strategies)))
-                    strictly_dominates = any(self.brics_payoffs[i, j] > self.brics_payoffs[i, alt_j] 
-                                           for i in range(len(self.us_strategies)))
-                    
-                    if not (dominates and strictly_dominates):
-                        is_dominant = False
-                        break
-            
-            if is_dominant:
-                brics_dominant = self.brics_strategies[j]
+
+        brics_dom = None
+        for j in range(2):
+            dominates = True
+            for i in range(2):
+                if not all(self.brics_payoffs[i, j] >= self.brics_payoffs[i, k] for k in range(2) if k != j):
+                    dominates = False
+                    break
+                if not any(self.brics_payoffs[i, j] > self.brics_payoffs[i, k] for k in range(2) if k != j):
+                    dominates = False
+                    break
+            if dominates:
+                brics_dom = self.brics_strategies[j]
                 break
-        
-        analysis['US_dominant_strategy'] = us_dominant
-        analysis['BRICS_dominant_strategy'] = brics_dominant
-        
-        return analysis
-    
+
+        return {'US_dominant_strategy': us_dom, 'BRICS_dominant_strategy': brics_dom}
+
     def calculate_mixed_strategy_equilibrium(self):
-        """Calculate mixed strategy Nash equilibrium if pure strategy doesn't exist"""
-        
-        # For 2x2 game, mixed strategy equilibrium exists if no pure strategy equilibrium
-        # US player's mixed strategy: probability p of playing Aggressive Tariffs
-        # India  player's mixed strategy: probability q of playing Accelerate De-dollarization
-        
-        # BRICS must be indifferent between strategies
-        # Expected payoff from Accelerate De-dollarization = Expected payoff from Maintain Status Quo
-        # p * 2.5 + (1-p) * 0.8 = p * (-0.125) + (1-p) * 0.5
-        
-        # Solving: 2.5p + 0.8 - 0.8p = -0.125p + 0.5 - 0.5p
-        # 1.7p + 0.8 = -0.625p + 0.5
-        # 2.325p = -0.3
-        # p = -0.3 / 2.325 = -0.129 (invalid, must be positive)
-        
-        # US must be indifferent between strategies
-        # q * (-3.2) + (1-q) * 0.1 = q * (-0.8) + (1-q) * 1.5
-        # -3.2q + 0.1 - 0.1q = -0.8q + 1.5 - 1.5q
-        # -3.3q + 0.1 = -2.3q + 1.5
-        # -q = 1.4
-        # q = -1.4 (invalid)
-        
-        return None  # No mixed strategy equilibrium with these payoffs
-    
+        """Solve for mixed strategy equilibrium if exists"""
+        # Let p = Pr(US plays Aggressive Tariffs)
+        # Let q = Pr(India plays Accelerate De-dollarization)
+
+        # BRICS indifference: EU_BRICS(Accel) = EU_BRICS(Maintain)
+        # q: not needed, solve for p
+        # p * 2.5 + (1-p)*0.8 = p*(-0.125) + (1-p)*0.5
+        # => p*(2.5 - 0.8 + 0.125 - 0.5) = 0.5 - 0.8
+        # => p*(1.325) = -0.3 → p = -0.3 / 1.325 ≈ -0.226 → invalid
+
+        # US indifference: EU_US(Agg) = EU_US(Coop)
+        # q*(-3.2) + (1-q)*0.1 = q*(-0.8) + (1-q)*1.5
+        # => q*(-3.2 + 0.8 + 0.1 - 1.5) = 1.5 - 0.1
+        # => q*(-3.8) = 1.4 → q = -1.4 / 3.8 ≈ -0.368 → invalid
+
+        return None  # No valid mixed strategy equilibrium
+
     def visualize_game_matrix(self):
-        """Create visualization of the game matrix"""
-        
+        """Plot payoff matrices"""
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
         
-        # US Payoffs
         df_us = pd.DataFrame(self.us_payoffs, 
                             index=self.us_strategies, 
                             columns=self.brics_strategies)
-        
-        sns.heatmap(df_us, annot=True, fmt='.1f', cmap='RdYlGn', center=0, 
-                   ax=ax1, cbar_kws={'label': 'Payoff (Trillions USD)'})
-        ax1.set_title('US Payoffs', fontsize=14, fontweight='bold')
+        sns.heatmap(df_us, annot=True, fmt='.1f', cmap='RdYlGn', center=0, ax=ax1, cbar_kws={'label': 'Payoff (Trillion USD)'})
+        ax1.set_title('US Payoffs', fontweight='bold')
         ax1.set_xlabel('BRICS Strategy')
         ax1.set_ylabel('US Strategy')
-        
-        # BRICS Payoffs
+
         df_brics = pd.DataFrame(self.brics_payoffs, 
                                index=self.us_strategies, 
                                columns=self.brics_strategies)
-        
-        sns.heatmap(df_brics, annot=True, fmt='.1f', cmap='RdYlGn', center=0, 
-                   ax=ax2, cbar_kws={'label': 'Payoff (Trillions USD)'})
-        ax2.set_title('BRICS Payoffs', fontsize=14, fontweight='bold')
+        sns.heatmap(df_brics, annot=True, fmt='.1f', cmap='RdYlGn', center=0, ax=ax2, cbar_kws={'label': 'Payoff (Trillion USD)'})
+        ax2.set_title('BRICS (India) Payoffs', fontweight='bold')
         ax2.set_xlabel('BRICS Strategy')
         ax2.set_ylabel('US Strategy')
-        
+
         plt.tight_layout()
         plt.show()
-    
+
     def run_complete_analysis(self):
-        """Run complete Nash equilibrium analysis"""
-        
+        """Run full analysis with no normative commentary"""
         print("=" * 80)
-        print("US-BRICS CURRENCY COMPETITION: NASH EQUILIBRIUM ANALYSIS")
+        print("US-BRICS CURRENCY COMPETITION: PURE STRATEGY GAME ANALYSIS")
         print("=" * 80)
         print()
-        
-        # Display game setup
-        print("GAME SETUP:")
-        print("Players: United States vs BRICS Nations")
-        print("US Strategies: Aggressive Tariffs vs Cooperative Trade")
-        print("BRICS Strategies: Accelerate De-dollarization vs Maintain Status Quo")
+
+        print("GAME STRUCTURE:")
+        print("Players: United States, BRICS (India)")
+        print("US Strategies: Aggressive Tariffs, Cooperative Trade")
+        print("India Strategies: Accelerate De-dollarization, Maintain Status Quo")
         print()
-        
-        # Display payoff matrices
-        print("PAYOFF MATRICES (Annual Trillions USD):")
-        print()
-        print("US Payoffs:")
-        us_df = pd.DataFrame(self.us_payoffs, 
-                            index=self.us_strategies, 
+
+        print("PAYOFF MATRICES (Annual, Trillions USD):")
+        us_df = pd.DataFrame(self.us_payoffs,
+                            index=self.us_strategies,
                             columns=self.brics_strategies)
+        print("US Payoffs:")
         print(us_df)
         print()
-        
-        print("BRICS (India) Payoffs:")
-        brics_df = pd.DataFrame(self.brics_payoffs, 
-                               index=self.us_strategies, 
+
+        brics_df = pd.DataFrame(self.brics_payoffs,
+                               index=self.us_strategies,
                                columns=self.brics_strategies)
+        print("BRICS (India) Payoffs:")
         print(brics_df)
         print()
-        
+
         # Find Nash equilibria
         nash_eq = self.find_nash_equilibria()
-        print("NASH EQUILIBRIA:")
+        print("PURE STRATEGY NASH EQUILIBRIA:")
         if nash_eq:
-            for i, (us_idx, brics_idx, us_payoff, brics_payoff) in enumerate(nash_eq):
-                print(f"Equilibrium {i+1}:")
-                print(f"  US Strategy: {self.us_strategies[us_idx]}")
-                print(f"  BRICS(India) Strategy: {self.brics_strategies[brics_idx]}")
-                print(f"  US Payoff: ${us_payoff:.1f} trillion")
-                print(f"  BRICS(India) Payoff: ${brics_payoff:.1f} trillion")
-                print()
+            for idx, (i, j, u, b) in enumerate(nash_eq):
+                print(f"Equilibrium {idx+1}:")
+                print(f"  US: {self.us_strategies[i]} → Payoff: {u:.1f}T")
+                print(f"  India: {self.brics_strategies[j]} → Payoff: {b:.1f}T")
         else:
-            print("No pure strategy Nash equilibria found.")
-            print()
-        
-        # Analyze dominant strategies
-        dominant_analysis = self.analyze_dominant_strategies()
-        print("DOMINANT STRATEGY ANALYSIS:")
-        print(f"US Dominant Strategy: {dominant_analysis['US_dominant_strategy'] or 'None'}")
-        print(f"BRICS(India) Dominant Strategy: {dominant_analysis['BRICS_dominant_strategy'] or 'None'}")
+            print("None found.")
         print()
-        
-        # Detailed scenario analysis
-        scenarios = self.calculate_detailed_payoffs()
-        print("DETAILED SCENARIO BREAKDOWN:")
-        print()
-        
-        for scenario_name, details in scenarios.items():
-            print(f"{scenario_name.replace('_', ' ').title()}:")
-            
-            if 'US_gains' in details:
-                print("  US Gains:")
-                for item, value in details['US_gains'].items():
-                    print(f"    {item.replace('_', ' ')}: ${value:.3f}T")
-            
-            if 'US_losses' in details:
-                print("  US Losses:")
-                for item, value in details['US_losses'].items():
-                    print(f"    {item.replace('_', ' ')}: ${value:.3f}T")
-            
-            if 'BRICS_gains' in details:
-                print(" (India)  BRICS Gains:")
-                for item, value in details['BRICS_gains'].items():
-                    print(f"    {item.replace('_', ' ')}: ${value:.3f}T")
-            
-            if 'BRICS_losses' in details:
-                print("(India)  BRICS Losses:")
-                for item, value in details['BRICS_losses'].items():
-                    print(f"    {item.replace('_', ' ')}: ${value:.3f}T")
-            print()
-        
-        # Strategic recommendations
-        print("STRATEGIC ANALYSIS:")
-        print()
-        print("Current Nash Equilibrium suggests that:")
-        if nash_eq:
-            equilibrium = nash_eq[0]  # Take first equilibrium
-            us_idx, brics_idx = equilibrium[0], equilibrium[1]
-            
-            if us_idx == 1 and brics_idx == 1:  # Cooperative Trade, Maintain Status Quo
-                print("✓ OPTIMAL OUTCOME: US should pursue Cooperative Trade")
-                print("✓ This maintains dollar dominance worth $2.5T annually")
-                print("✓ BRICS benefits from stable trade relationships")
-                print("✓ Both players achieve positive payoffs")
-            else:
-                print("⚠ SUB-OPTIMAL EQUILIBRIUM DETECTED")
-                print("  Current path leads to mutual losses")
-                print("  US risks losing dollar dominance ($2.5T annually)")
-                print("  BRICS accelerates de-dollarization")
-        
-        print()
-        print("POLICY IMPLICATIONS:")
-        print("1. Aggressive tariffs trigger BRICS de-dollarization")
-        print("2. Cooperative approach preserves US dollar dominance")
-        print("3. Current Trump strategy appears to be Nash-dominated")
-        print("4. Economic losses from tariff war exceed any trade benefits")
-        print()
-        
-        return nash_eq, dominant_analysis, scenarios
 
-# Run the analysis
+        # Dominant strategies
+        dom = self.analyze_dominant_strategies()
+        print("DOMINANT STRATEGIES:")
+        print(f"US: {dom['US_dominant_strategy'] or 'None'}")
+        print(f"India: {dom['BRICS_dominant_strategy'] or 'None'}")
+        print()
+
+        # Detailed scenarios
+        scenarios = self.calculate_detailed_payoffs()
+        print("DETAILED SCENARIO PAYOFF COMPONENTS:")
+        for name, data in scenarios.items():
+            title = name.replace('_', ' ').title()
+            print(f"{title}:")
+            if 'US_gains' in data:
+                print("  US Gains:")
+                for k, v in data['US_gains'].items():
+                    print(f"    {k.replace('_', ' ').title()}: {v:.3f}T")
+            if 'US_losses' in data:
+                print("  US Losses:")
+                for k, v in data['US_losses'].items():
+                    print(f"    {k.replace('_', ' ').title()}: {v:.3f}T")
+            if 'BRICS_gains' in data:
+                print("  India Gains:")
+                for k, v in data['BRICS_gains'].items():
+                    print(f"    {k.replace('_', ' ').title()}: {v:.3f}T")
+            if 'BRICS_losses' in data:
+                print("  India Losses:")
+                for k, v in data['BRICS_losses'].items():
+                    print(f"    {k.replace('_', ' ').title()}: {v:.3f}T")
+            print()
+
+        # Mathematical analysis only
+        print("MATHEMATICAL ANALYSIS:")
+        print()
+        if nash_eq:
+            eq = nash_eq[0]
+            us_strat = self.us_strategies[eq[0]]
+            brics_strat = self.brics_strategies[eq[1]]
+            us_payoff = eq[2]
+            brics_payoff = eq[3]
+
+            print(f"Unique Pure-Strategy Nash Equilibrium: ({us_strat}, {brics_strat})")
+            print(f"  → US receives {us_payoff:.1f}T, India receives {brics_payoff:.1f}T")
+            print()
+            print("Rationality Check:")
+            print("  - Given India plays 'Accelerate De-dollarization', US best response is 'Cooperative Trade'")
+            print("    because -0.8 > -3.2")
+            print("  - Given US plays 'Cooperative Trade', India best response is 'Accelerate De-dollarization'")
+            print("    because 0.8 > 0.5")
+            print()
+            print("Conclusion:")
+            print("  The game has a unique Nash equilibrium in pure strategies.")
+            print("  This equilibrium yields suboptimal payoff for the US")
+            print("  relative to (Cooperative Trade, Maintain Status Quo),")
+            print("  but that outcome is not stable — India has incentive to deviate.")
+            print()
+            print("Mixed Strategy Check:")
+            print("  Solving for US indifference: q*(-3.2) + (1-q)*0.1 = q*(-0.8) + (1-q)*1.5")
+            print("  → -3.2q + 0.1 - 0.1q = -0.8q + 1.5 - 1.5q")
+            print("  → -3.3q + 0.1 = -2.3q + 1.5")
+            print("  → -1.0q = 1.4 → q = -1.4 → invalid probability")
+            print("  → No valid mixed-strategy equilibrium exists.")
+        else:
+            print("No pure-strategy Nash equilibrium exists in this game.")
+            print("Players lack stable best-response cycles under simultaneous play.")
+
+        return nash_eq, dom, scenarios
+
+
+# Run analysis
 if __name__ == "__main__":
     game = CurrencyGameTheory()
     nash_equilibria, dominant_strategies, scenario_details = game.run_complete_analysis()
-    
-    # Visualize the game
     game.visualize_game_matrix()
