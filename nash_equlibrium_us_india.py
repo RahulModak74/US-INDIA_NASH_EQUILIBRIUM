@@ -7,19 +7,19 @@ from itertools import product
 class CurrencyGameTheory:
     def __init__(self):
         """
-        Initialize the US-BRICS currency competition game
+        Initialize the US_INDIA (with BRICS) currency competition game
         
-        Players: US, BRICS
+        Players: US, BRICS(India)
         US Strategies: Aggressive Tariffs, Cooperative Trade
-        BRICS Strategies: Accelerate De-dollarization, Maintain Status Quo
+        India Strategies: Accelerate De-dollarization, Maintain Status Quo
         """
         
         # Economic parameters (in trillions USD)
         self.us_debt = 37.0  # US national debt
-        self.us_exports_to_brics = 0.083  # US exports to BRICS nations
-        self.brics_exports_to_us = 0.125  # BRICS exports to US
-        self.us_defense_market = 0.150  # Global defense market dominated by US
-        self.dollar_privilege_value = 2.5  # Annual value of dollar dominance
+        self.us_exports_to_brics = 0.083  # US exports to India
+        self.brics_exports_to_us = 0.125  # India  exports to US
+        self.us_defense_market = 0.150  # USD Value of Global defense market dominated by US that India can disrupt (missiles-F16)
+        self.dollar_privilege_value = 2.5  # Annual value of dollar dominance in trillion
         self.brics_gdp_share = 0.379  # BRICS share of global GDP by 2028
         
         # Define payoff matrices
@@ -30,17 +30,17 @@ class CurrencyGameTheory:
         
         # US Payoffs (in trillions USD annually)
         # Rows: US strategies (Aggressive Tariffs, Cooperative Trade)
-        # Columns: BRICS strategies (Accelerate De-dollarization, Maintain Status Quo)
+        # Columns: India strategies (Accelerate De-dollarization, Maintain Status Quo)
         
         self.us_payoffs = np.array([
-            # BRICS: Accelerate De-dollarization, Maintain Status Quo
+            # India : Accelerate De-dollarization, Maintain Status Quo
             [-3.2, 0.1],    # US: Aggressive Tariffs
             [-0.8, 1.5]     # US: Cooperative Trade
         ])
         
-        # BRICS Payoffs (in trillions USD annually)
+        # India  Payoffs (in trillions USD annually)
         self.brics_payoffs = np.array([
-            # BRICS: Accelerate De-dollarization, Maintain Status Quo
+            # India: Accelerate De-dollarization, Maintain Status Quo
             [2.5, -0.125],   # US: Aggressive Tariffs
             [0.8, 0.5]       # US: Cooperative Trade
         ])
