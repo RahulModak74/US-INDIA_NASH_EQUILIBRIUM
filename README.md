@@ -1,19 +1,14 @@
-# US-INDIA_NASH_EQUILIBRIUM
-Nash equilibrium for Indo -US tariff game
-
-Output:
-
+Outcome of script above
 ================================================================================
-US-BRICS CURRENCY COMPETITION: NASH EQUILIBRIUM ANALYSIS
+US-INDIA CURRENCY COMPETITION: PURE STRATEGY GAME ANALYSIS
 ================================================================================
 
-GAME SETUP:
-Players: United States vs BRICS Nations
-US Strategies: Aggressive Tariffs vs Cooperative Trade
-BRICS Strategies: Accelerate De-dollarization vs Maintain Status Quo
+GAME STRUCTURE:
+Players: United States, BRICS (India)
+US Strategies: Aggressive Tariffs, Cooperative Trade
+India Strategies: Accelerate De-dollarization, Maintain Status Quo
 
-PAYOFF MATRICES (Annual Trillions USD):
-
+PAYOFF MATRICES (Annual, Trillions USD):
 US Payoffs:
                     Accelerate De-dollarization  Maintain Status Quo
 Aggressive Tariffs                         -3.2                  0.1
@@ -24,63 +19,70 @@ BRICS (India) Payoffs:
 Aggressive Tariffs                          2.5               -0.125
 Cooperative Trade                           0.8                0.500
 
-NASH EQUILIBRIA:
+PURE STRATEGY NASH EQUILIBRIA:
 Equilibrium 1:
-  US Strategy: Cooperative Trade
-  BRICS(India) Strategy: Accelerate De-dollarization
-  US Payoff: $-0.8 trillion
-  BRICS(India) Payoff: $0.8 trillion
+  US: Cooperative Trade → Payoff: -0.8T
+  India: Accelerate De-dollarization → Payoff: 0.8T
 
-DOMINANT STRATEGY ANALYSIS:
-US Dominant Strategy: Cooperative Trade
-BRICS(India) Dominant Strategy: Accelerate De-dollarization
+DOMINANT STRATEGIES:
+US: Cooperative Trade
+India: Accelerate De-dollarization
 
-DETAILED SCENARIO BREAKDOWN:
-
+DETAILED SCENARIO PAYOFF COMPONENTS:
 Us Aggressive Brics Accelerate:
   US Gains:
-    Reduced BRICS imports: $0.125T
-    Short term revenue: $0.030T
+    Reduced Brics Imports: 0.125T
+    Short Term Revenue: 0.030T
   US Losses:
-    Lost dollar dominance: $-2.500T
-    Lost defense market: $-0.150T
-    Higher debt costs: $-0.800T
-    Lost exports: $-0.083T
-    Tariff retaliation: $-0.200T
- (India)  BRICS Gains:
-    New currency benefits: $1.800T
-    Defense market share: $0.150T
-    Reduced US dependency: $0.500T
-    Export diversification: $0.300T
-(India)  BRICS Losses:
-    Transition costs: $-0.250T
+    Lost Dollar Dominance: -2.500T
+    Lost Defense Market: -0.150T
+    Higher Debt Costs: -0.800T
+    Lost Exports: -0.083T
+    Tariff Retaliation: -0.200T
+  India Gains:
+    New Currency Benefits: 1.800T
+    Defense Market Share: 0.150T
+    Reduced Us Dependency: 0.500T
+    Export Diversification: 0.300T
+  India Losses:
+    Transition Costs: -0.250T
 
 Us Cooperative Brics Maintain:
   US Gains:
-    Maintain dollar dominance: $2.500T
-    Stable exports: $0.083T
-    Defense market preserved: $0.150T
-    BRICS partnership: $0.200T
+    Maintain Dollar Dominance: 2.500T
+    Stable Exports: 0.083T
+    Defense Market Preserved: 0.150T
+    Brics Partnership: 0.200T
   US Losses:
-    Trade deficit accepted: $-0.042T
- (India)  BRICS Gains:
-    Stable trade: $0.500T
-    US market access: $0.125T
-    Technology transfer: $0.100T
-(India)  BRICS Losses:
-    Dollar dependency: $-0.125T
-    Limited sovereignty: $-0.100T
+    Trade Deficit Accepted: -0.042T
+  India Gains:
+    Stable Trade: 0.500T
+    Us Market Access: 0.125T
+    Technology Transfer: 0.100T
+  India Losses:
+    Dollar Dependency: -0.125T
+    Limited Sovereignty: -0.100T
 
-STRATEGIC ANALYSIS:
+MATHEMATICAL ANALYSIS:
 
-Current Nash Equilibrium suggests that:
-⚠ SUB-OPTIMAL EQUILIBRIUM DETECTED
-  Current path leads to mutual losses
-  US risks losing dollar dominance ($2.5T annually)
-  BRICS accelerates de-dollarization
+Unique Pure-Strategy Nash Equilibrium: (Cooperative Trade, Accelerate De-dollarization)
+  → US receives -0.8T, India receives 0.8T
 
-POLICY IMPLICATIONS:
-1. Aggressive tariffs trigger BRICS de-dollarization
-2. Cooperative approach preserves US dollar dominance
-3. Current Trump strategy appears to be Nash-dominated
-4. Economic losses from tariff war exceed any trade benefits
+Rationality Check:
+  - Given India plays 'Accelerate De-dollarization', US best response is 'Cooperative Trade'       
+    because -0.8 > -3.2
+  - Given US plays 'Cooperative Trade', India best response is 'Accelerate De-dollarization'       
+    because 0.8 > 0.5
+
+Conclusion:
+  The game has a unique Nash equilibrium in pure strategies.
+  This equilibrium yields suboptimal payoff for the US
+  relative to (Cooperative Trade, Maintain Status Quo),
+  but that outcome is not stable — India has incentive to deviate.
+
+Mixed Strategy Check:
+  Solving for US indifference: q*(-3.2) + (1-q)*0.1 = q*(-0.8) + (1-q)*1.5
+  → -3.2q + 0.1 - 0.1q = -0.8q + 1.5 - 1.5q
+  → -3.3q + 0.1 = -2.3q + 1.5
+  → -1.0q = 1.4 → q = -1.4 → invalid probability
+  → No valid mixed-strategy equilibrium exists.
