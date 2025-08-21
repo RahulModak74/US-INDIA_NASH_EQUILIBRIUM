@@ -184,7 +184,7 @@ class CurrencyGameTheory:
         
         # For 2x2 game, mixed strategy equilibrium exists if no pure strategy equilibrium
         # US player's mixed strategy: probability p of playing Aggressive Tariffs
-        # BRICS player's mixed strategy: probability q of playing Accelerate De-dollarization
+        # India  player's mixed strategy: probability q of playing Accelerate De-dollarization
         
         # BRICS must be indifferent between strategies
         # Expected payoff from Accelerate De-dollarization = Expected payoff from Maintain Status Quo
@@ -259,7 +259,7 @@ class CurrencyGameTheory:
         print(us_df)
         print()
         
-        print("BRICS Payoffs:")
+        print("BRICS (India) Payoffs:")
         brics_df = pd.DataFrame(self.brics_payoffs, 
                                index=self.us_strategies, 
                                columns=self.brics_strategies)
@@ -273,9 +273,9 @@ class CurrencyGameTheory:
             for i, (us_idx, brics_idx, us_payoff, brics_payoff) in enumerate(nash_eq):
                 print(f"Equilibrium {i+1}:")
                 print(f"  US Strategy: {self.us_strategies[us_idx]}")
-                print(f"  BRICS Strategy: {self.brics_strategies[brics_idx]}")
+                print(f"  BRICS(India) Strategy: {self.brics_strategies[brics_idx]}")
                 print(f"  US Payoff: ${us_payoff:.1f} trillion")
-                print(f"  BRICS Payoff: ${brics_payoff:.1f} trillion")
+                print(f"  BRICS(India) Payoff: ${brics_payoff:.1f} trillion")
                 print()
         else:
             print("No pure strategy Nash equilibria found.")
@@ -285,7 +285,7 @@ class CurrencyGameTheory:
         dominant_analysis = self.analyze_dominant_strategies()
         print("DOMINANT STRATEGY ANALYSIS:")
         print(f"US Dominant Strategy: {dominant_analysis['US_dominant_strategy'] or 'None'}")
-        print(f"BRICS Dominant Strategy: {dominant_analysis['BRICS_dominant_strategy'] or 'None'}")
+        print(f"BRICS(India) Dominant Strategy: {dominant_analysis['BRICS_dominant_strategy'] or 'None'}")
         print()
         
         # Detailed scenario analysis
@@ -307,12 +307,12 @@ class CurrencyGameTheory:
                     print(f"    {item.replace('_', ' ')}: ${value:.3f}T")
             
             if 'BRICS_gains' in details:
-                print("  BRICS Gains:")
+                print(" (India)  BRICS Gains:")
                 for item, value in details['BRICS_gains'].items():
                     print(f"    {item.replace('_', ' ')}: ${value:.3f}T")
             
             if 'BRICS_losses' in details:
-                print("  BRICS Losses:")
+                print("(India)  BRICS Losses:")
                 for item, value in details['BRICS_losses'].items():
                     print(f"    {item.replace('_', ' ')}: ${value:.3f}T")
             print()
