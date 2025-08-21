@@ -1,88 +1,153 @@
-Outcome of script above
-================================================================================
-US-INDIA CURRENCY COMPETITION: PURE STRATEGY GAME ANALYSIS
-================================================================================
+======================================================================
+   US-INDIA CURRENCY GAME: HOW STRATEGY CHANGES THE EQUILIBRIUM
+   Based on Nash Equilibrium | Model: Rahul Modak
+   GitHub: https://github.com/RahulModak74/US-INDIA_NASH_EQUILIBRIUM
+======================================================================
 
-GAME STRUCTURE:
-Players: United States, BRICS (India)
-US Strategies: Aggressive Tariffs, Cooperative Trade
-India Strategies: Accelerate De-dollarization, Maintain Status Quo
 
-PAYOFF MATRICES (Annual, Trillions USD):
-US Payoffs:
+🧪 Baseline
+🎮 STRATEGIC INTERVENTION ANALYSIS
+————————————————————————————————————————————————————————————
+Applied: None (Baseline)
+
+🔢 PAYOFF MATRICES:
+US Payoffs (Trillion USD):
                     Accelerate De-dollarization  Maintain Status Quo
 Aggressive Tariffs                         -3.2                  0.1
 Cooperative Trade                          -0.8                  1.5
 
-BRICS (India) Payoffs:
+India (BRICS) Payoffs (Trillion USD):
                     Accelerate De-dollarization  Maintain Status Quo
 Aggressive Tariffs                          2.5               -0.125
 Cooperative Trade                           0.8                0.500
 
-PURE STRATEGY NASH EQUILIBRIA:
-Equilibrium 1:
-  US: Cooperative Trade → Payoff: -0.8T
-  India: Accelerate De-dollarization → Payoff: 0.8T
+🎯 NASH EQUILIBRIA:
+  Equilibrium 1:
+    US: Cooperative Trade → $-0.80T
+    India: Accelerate De-dollarization → $0.80T
 
-DOMINANT STRATEGIES:
-US: Cooperative Trade
-India: Accelerate De-dollarization
+————————————————————————————————————————————————————————————
 
-DETAILED SCENARIO PAYOFF COMPONENTS:
-Us Aggressive Brics Accelerate:
-  US Gains:
-    Reduced Brics Imports: 0.125T
-    Short Term Revenue: 0.030T
-  US Losses:
-    Lost Dollar Dominance: -2.500T
-    Lost Defense Market: -0.150T
-    Higher Debt Costs: -0.800T
-    Lost Exports: -0.083T
-    Tariff Retaliation: -0.200T
-  India Gains:
-    New Currency Benefits: 1.800T
-    Defense Market Share: 0.150T
-    Reduced Us Dependency: 0.500T
-    Export Diversification: 0.300T
-  India Losses:
-    Transition Costs: -0.250T
+🧪 + Positive Incentives
+🎮 STRATEGIC INTERVENTION ANALYSIS
+————————————————————————————————————————————————————————————
+Applied: Positive Incentives
 
-Us Cooperative Brics Maintain:
-  US Gains:
-    Maintain Dollar Dominance: 2.500T
-    Stable Exports: 0.083T
-    Defense Market Preserved: 0.150T
-    Brics Partnership: 0.200T
-  US Losses:
-    Trade Deficit Accepted: -0.042T
-  India Gains:
-    Stable Trade: 0.500T
-    Us Market Access: 0.125T
-    Technology Transfer: 0.100T
-  India Losses:
-    Dollar Dependency: -0.125T
-    Limited Sovereignty: -0.100T
+🔢 PAYOFF MATRICES:
+US Payoffs (Trillion USD):
+                    Accelerate De-dollarization  Maintain Status Quo
+Aggressive Tariffs                         -3.2                  0.1
+Cooperative Trade                          -0.8                  1.5
 
-MATHEMATICAL ANALYSIS:
+India (BRICS) Payoffs (Trillion USD):
+                    Accelerate De-dollarization  Maintain Status Quo
+Aggressive Tariffs                          2.5               -0.125
+Cooperative Trade                           0.8                0.900
 
-Unique Pure-Strategy Nash Equilibrium: (Cooperative Trade, Accelerate De-dollarization)
-  → US receives -0.8T, India receives 0.8T
+🎯 NASH EQUILIBRIA:
+  Equilibrium 1:
+    US: Cooperative Trade → $1.50T
+    India: Maintain Status Quo → $0.90T
 
-Rationality Check:
-  - Given India plays 'Accelerate De-dollarization', US best response is 'Cooperative Trade'       
-    because -0.8 > -3.2
-  - Given US plays 'Cooperative Trade', India best response is 'Accelerate De-dollarization'       
-    because 0.8 > 0.5
+————————————————————————————————————————————————————————————
 
-Conclusion:
-  The game has a unique Nash equilibrium in pure strategies.
-  This equilibrium yields suboptimal payoff for the US
-  relative to (Cooperative Trade, Maintain Status Quo),
-  but that outcome is not stable — India has incentive to deviate.
+🧪 + Credible Retaliation
+🎮 STRATEGIC INTERVENTION ANALYSIS
+————————————————————————————————————————————————————————————
+Applied: Credible Retaliation
 
-Mixed Strategy Check:
-  Solving for US indifference: q*(-3.2) + (1-q)*0.1 = q*(-0.8) + (1-q)*1.5
-  → -3.2q + 0.1 - 0.1q = -0.8q + 1.5 - 1.5q
-  → -3.3q + 0.1 = -2.3q + 1.5
-  → -1.0q = 1.4 → q = -1.4 → invalid probability
-  → No valid mixed-strategy equilibrium exists.
+🔢 PAYOFF MATRICES:
+US Payoffs (Trillion USD):
+                    Accelerate De-dollarization  Maintain Status Quo
+Aggressive Tariffs                         -3.2                  0.1
+Cooperative Trade                          -0.8                  1.5
+
+India (BRICS) Payoffs (Trillion USD):
+                    Accelerate De-dollarization  Maintain Status Quo
+Aggressive Tariffs                          2.5               -0.125
+Cooperative Trade                           0.5                0.500
+
+🎯 NASH EQUILIBRIA:
+  Equilibrium 1:
+    US: Cooperative Trade → $-0.80T
+    India: Accelerate De-dollarization → $0.50T
+  Equilibrium 2:
+    US: Cooperative Trade → $1.50T
+    India: Maintain Status Quo → $0.50T
+
+————————————————————————————————————————————————————————————
+
+🧪 + BRICS Fragmentation
+🎮 STRATEGIC INTERVENTION ANALYSIS
+————————————————————————————————————————————————————————————
+Applied: BRICS Fragmentation
+
+🔢 PAYOFF MATRICES:
+US Payoffs (Trillion USD):
+                    Accelerate De-dollarization  Maintain Status Quo
+Aggressive Tariffs                         -3.2                  0.1
+Cooperative Trade                          -0.8                  1.5
+
+India (BRICS) Payoffs (Trillion USD):
+                    Accelerate De-dollarization  Maintain Status Quo
+Aggressive Tariffs                          2.0               -0.125
+Cooperative Trade                           0.5                0.500
+
+🎯 NASH EQUILIBRIA:
+  Equilibrium 1:
+    US: Cooperative Trade → $-0.80T
+    India: Accelerate De-dollarization → $0.50T
+  Equilibrium 2:
+    US: Cooperative Trade → $1.50T
+    India: Maintain Status Quo → $0.50T
+
+————————————————————————————————————————————————————————————
+
+🧪 + Digital Dollar
+🎮 STRATEGIC INTERVENTION ANALYSIS
+————————————————————————————————————————————————————————————
+Applied: Digital Dollar
+
+🔢 PAYOFF MATRICES:
+US Payoffs (Trillion USD):
+                    Accelerate De-dollarization  Maintain Status Quo
+Aggressive Tariffs                         -3.2                  0.1
+Cooperative Trade                          -0.8                  1.5
+
+India (BRICS) Payoffs (Trillion USD):
+                    Accelerate De-dollarization  Maintain Status Quo
+Aggressive Tariffs                          2.2               -0.125
+Cooperative Trade                           0.5                0.500
+
+🎯 NASH EQUILIBRIA:
+  Equilibrium 1:
+    US: Cooperative Trade → $-0.80T
+    India: Accelerate De-dollarization → $0.50T
+  Equilibrium 2:
+    US: Cooperative Trade → $1.50T
+    India: Maintain Status Quo → $0.50T
+
+————————————————————————————————————————————————————————————
+
+🧪 Full Strategy Package
+🎮 STRATEGIC INTERVENTION ANALYSIS
+————————————————————————————————————————————————————————————
+Applied: Positive Incentives, Credible Retaliation, BRICS Fragmentation, Digital Dollar
+
+🔢 PAYOFF MATRICES:
+US Payoffs (Trillion USD):
+                    Accelerate De-dollarization  Maintain Status Quo
+Aggressive Tariffs                         -3.2                  0.1
+Cooperative Trade                          -0.8                  1.5
+
+India (BRICS) Payoffs (Trillion USD):
+                    Accelerate De-dollarization  Maintain Status Quo
+Aggressive Tariffs                          1.7               -0.125
+Cooperative Trade                          -0.1                0.900
+
+🎯 NASH EQUILIBRIA:
+  Equilibrium 1:
+    US: Cooperative Trade → $1.50T
+    India: Maintain Status Quo → $0.90T
+
+————————————————————————————————————————————————————————————
